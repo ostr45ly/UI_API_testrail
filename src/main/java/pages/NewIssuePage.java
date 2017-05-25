@@ -1,8 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import utils.RemoteDriverManager;
 
 public class NewIssuePage extends BasePage {
@@ -20,60 +18,68 @@ public class NewIssuePage extends BasePage {
 
 
     public NewIssuePage() {
+
         this.driver = RemoteDriverManager.getDriver();
         headerPage = new HeaderPage();
+
     }
 
     public NewIssuePage openNewSubTask() throws InterruptedException {
+
         waitToBePresent(newSubtaskButtonLocator);
         driver.findElement(newSubtaskButtonLocator).click();
+
         return this;
     }
 
     public NewIssuePage fillSummary(String summary) {
+
         waitToBePresent(summaryLocator);
         driver.findElement(summaryLocator).sendKeys(summary);
+
         return this;
     }
 
     public NewIssuePage clickSubmitButton() {
+
         driver.findElement(submitButtonLocator).click();
+
         return this;
     }
 
     public NewIssuePage shouldSeeSuccessPopUp() {
 
         waitToBePresent(successPopUp);
+
         return this;
     }
 
     public NewIssuePage openSubtask() throws InterruptedException {
 
         waitToBePresent(subtaskLocator);
-        WebElement element = driver.findElement(subtaskLocator);
-        element.click();
+        waitToBePresentAndClick(subtaskLocator);
 
         return this;
     }
 
     public NewIssuePage clickMoreButton() {
 
-        waitToBePresent(moreButtonLocator);
-        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,-250)", "");
+        waitToBePresentAndClick(moreButtonLocator);
 
-        WebElement element = findElement(moreButtonLocator);
-        element.click();
         return this;
     }
 
     public NewIssuePage clickDeleteListItem() {
-        driver.findElement(deleteListItemLocator).click();
+
+        waitToBePresentAndClick(deleteListItemLocator);
+
         return this;
     }
 
-    public NewIssuePage deleteSubtask() {
-        waitToBePresent(deleteButtonLocator);
-        driver.findElement(deleteButtonLocator).click();
+    public NewIssuePage deleteSubTask() {
+
+        waitToBePresentAndClick(deleteButtonLocator);
+
         return this;
     }
 

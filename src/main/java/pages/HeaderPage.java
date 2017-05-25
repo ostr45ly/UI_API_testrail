@@ -6,9 +6,10 @@ import utils.RemoteDriverManager;
 
 public class HeaderPage extends BasePage {
 
-    By systemDashboardLocator = By.cssSelector("div.aui-page-header-main>h1");
-    By createLocator = By.id("create-menu");
-    By searchLocator = By.id("quickSearchInput");
+
+    private By systemDashboardLocator = By.cssSelector("div.aui-page-header-main>h1");
+    private By createLocator = By.id("create-menu");
+    private By searchLocator = By.id("quickSearchInput");
 
 
     public HeaderPage() {
@@ -22,5 +23,6 @@ public class HeaderPage extends BasePage {
         element.submit();
         return this;
     }
+
 
 }

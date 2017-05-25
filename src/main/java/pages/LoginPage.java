@@ -5,6 +5,8 @@ import utils.RemoteDriverManager;
 
 public class LoginPage extends BasePage {
 
+    private String pageURL = baseURL + "/login.jsp";
+
     private By usernameLocator = By.id("login-form-username");
     private By passwordLocator = By.id("login-form-password");
     private By loginButtonLocator = By.id("login-form-submit");
@@ -15,23 +17,37 @@ public class LoginPage extends BasePage {
         this.driver = RemoteDriverManager.getDriver();
     }
 
-    public void open() {
+    public LoginPage open() {
+
         driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
-        waitToBePresent(loginForm);
+
+        return this;
     }
 
-    public void enterUsername() {
-        driver.findElement(usernameLocator).sendKeys("gubernatorova.sn");
+    public LoginPage enterUsername() {
+
+        waitToBePresentAndSendKeys(usernameLocator, "gubernatorova.sn");
+
+        return this;
     }
 
-    public void enterPassword() {
-        driver.findElement(passwordLocator).sendKeys("11111111");
+    public LoginPage enterPassword() {
+
+        waitToBePresentAndSendKeys(passwordLocator, "11111111");
+
+        return this;
     }
 
-    public void clickLogin() {
+    public LoginPage clickLogin() {
 
-        driver.findElement(loginButtonLocator).submit();
-        waitToBePresent(By.xpath("//*[contains(text(),'System Dashboard')]"));
+        waitToBePresentAndSendSubmit(loginButtonLocator);
+
+        return this;
+
+    }
+
+    public boolean isOnThePage() {
+        return isOnThePage(pageURL);
 
     }
 

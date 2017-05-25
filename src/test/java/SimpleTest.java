@@ -1,5 +1,6 @@
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pages.DashBoardPage;
 import pages.HeaderPage;
 import pages.LoginPage;
 import pages.NewIssuePage;
@@ -26,11 +27,14 @@ public class SimpleTest {
         LoginPage loginPage = new LoginPage();
         NewIssuePage newIssuePage = new NewIssuePage();
         HeaderPage headerPage = new HeaderPage();
+        DashBoardPage dashBoardPage = new DashBoardPage();
 
         loginPage.open();
+        loginPage.isOnThePage();
         loginPage.enterUsername();
         loginPage.enterPassword();
         loginPage.clickLogin();
+        dashBoardPage.isOnThePage();
 
         //Create new sub-task
 
@@ -44,6 +48,6 @@ public class SimpleTest {
         newIssuePage.shouldSeeSuccessPopUp();
         newIssuePage.clickMoreButton();
         newIssuePage.clickDeleteListItem();
-        newIssuePage.deleteSubtask();
+        newIssuePage.deleteSubTask();
     }
 }

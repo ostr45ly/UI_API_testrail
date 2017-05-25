@@ -1,54 +1,113 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.RemoteDriverManager;
 
 public class BasePage {
 
+    protected String baseURL = "http://soft.it-hillel.com.ua:8080";
     protected WebDriver driver;
+    private int timeOutInSeconds = 10;
 
-    BasePage() {
+    protected BasePage() {
         this.driver = RemoteDriverManager.getDriver();
     }
 
-    public void waitToBePresent(By locator) {
-        (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(locator));
-    }
-
-    /**
-     * @param locator
-     */
-
-    public void waitToBePresentAndClick(By locator) {
-        (new WebDriverWait(driver, 10)).
-                until(ExpectedConditions.presenceOfElementLocated(locator)).click();
+    protected void waitToBePresent(By locator) {
+        (new WebDriverWait(driver, timeOutInSeconds))
+                .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     /**
      * @param locator
      * @param timeOutInSeconds
      */
-    public void waitToBePresentAfter(By locator, int timeOutInSeconds) {
-        (new WebDriverWait(driver, timeOutInSeconds)).until(ExpectedConditions.presenceOfElementLocated(locator));
+    protected void waitToBePresentIn(By locator, int timeOutInSeconds) {
+        (new WebDriverWait(driver, timeOutInSeconds))
+                .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public WebElement findElement(By locator) {
-        return driver.findElement(locator);
-    }
+    /**
+     * @param locator
+     */
 
-    public WebElement findDynamicElement(By locator) {
+    protected void waitToBePresentAndClick(By locator) {
+
+        WebElement element = null;
+
         try {
-            driver.findElement(locator);
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            element.click();
         } catch (StaleElementReferenceException ignored) {
-            driver.findElement(locator);
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            element.click();
         }
 
-        return driver.findElement(locator);
+    }
+
+    protected void waitToBePresentAndSendKeys(By locator, String keys) {
+
+        WebElement element = null;
+
+        try {
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            element.sendKeys(keys);
+        } catch (StaleElementReferenceException ignored) {
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            element.sendKeys(keys);
+        }
+
+    }
+
+    protected void waitToBePresentAndSendSubmit(By locator) {
+
+        WebElement element = null;
+
+        try {
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            element.submit();
+        } catch (StaleElementReferenceException ignored) {
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            element.submit();
+        }
+
+    }
+
+
+    protected void scrollDown() {
+
+    }
+
+    protected void scrollUp() {
+
+    }
+
+    protected void scrollUpOn(int x) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,-" + x + ")", "");
+    }
+
+    protected void scrollDownOn(int x) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0," + x + ")", "");
+    }
+
+//    protected WebElement findElement(By locator) {
+//        return driver.findElement(locator);
+//    }
+
+
+    protected boolean isOnThePage(String expectedURL) {
+
+        String currentURL = driver.getCurrentUrl();
+        return expectedURL.equals(currentURL);
+
     }
 
 }
