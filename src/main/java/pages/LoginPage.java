@@ -5,6 +5,7 @@ import utils.RemoteDriverManager;
 
 public class LoginPage extends BasePage {
 
+
     private String pageURL = baseURL + "/login.jsp";
 
     private By usernameLocator = By.id("login-form-username");
@@ -18,8 +19,8 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage open() {
-
-        driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
+        logger.info("OPENING URL: " + pageURL);
+        driver.get(pageURL);
 
         return this;
     }
@@ -33,6 +34,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage enterPassword() {
 
+        logger.info("FIND ELEMENT: " + passwordLocator);
         waitToBePresentAndSendKeys(passwordLocator, "11111111");
 
         return this;
@@ -40,6 +42,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage clickLogin() {
 
+        logger.info("FIND ELEMENT: " + loginButtonLocator);
         waitToBePresentAndSendSubmit(loginButtonLocator);
 
         return this;

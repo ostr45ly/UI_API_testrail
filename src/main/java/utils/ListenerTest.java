@@ -42,6 +42,7 @@ public class ListenerTest implements ITestListener {
 
     public void onTestFailure(ITestResult iTestResult) {
         logger.error("TEST: " + iTestResult.getName() + " FAILED");
+        logger.error(iTestResult.getThrowable().fillInStackTrace());
     }
 
     public void onTestSkipped(ITestResult iTestResult) {
@@ -58,10 +59,13 @@ public class ListenerTest implements ITestListener {
 
     public void onFinish(ITestContext iTestContext) {
         // Invoked after all the tests have run and all their Configuration methods have been called.
+        WebDriver driver = RemoteDriverManager.getDriver();
 
-        logger.info("Restoring implicit wait to default value");
-        RemoteDriverManager.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-//        logger.info("Closing browser windows");
-//        RemoteDriverManager.closeDriver();
+        if (driver != null) {
+            logger.info("Restoring implicit wait to default value");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            logger.info("Closing browser window");
+            RemoteDriverManager.closeDriver();
+        }
     }
 }

@@ -1,11 +1,14 @@
 package pages;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.RemoteDriverManager;
 
 public class BasePage {
+
+    final static Logger logger = Logger.getLogger(BasePage.class);
 
     protected String baseURL = "http://soft.it-hillel.com.ua:8080";
     protected WebDriver driver;
@@ -16,6 +19,7 @@ public class BasePage {
     }
 
     protected void waitToBePresent(By locator) {
+        logger.info("WAIT ELEMENT TO BE PRESENT: " + locator);
         (new WebDriverWait(driver, timeOutInSeconds))
                 .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
@@ -25,6 +29,7 @@ public class BasePage {
      * @param timeOutInSeconds
      */
     protected void waitToBePresentIn(By locator, int timeOutInSeconds) {
+        logger.info("WAIT ELEMENT TO BE PRESENT: " + locator + " in " + timeOutInSeconds + " seconds");
         (new WebDriverWait(driver, timeOutInSeconds))
                 .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
@@ -34,7 +39,7 @@ public class BasePage {
      */
 
     protected void waitToBePresentAndClick(By locator) {
-
+        logger.info("WAIT ELEMENT TO BE PRESENT AND CLICK: " + locator);
         WebElement element = null;
 
         try {
@@ -50,6 +55,7 @@ public class BasePage {
     }
 
     protected void waitToBePresentAndSendKeys(By locator, String keys) {
+        logger.info("WAIT ELEMENT TO BE PRESENT AND SEND KEYS: " + locator);
 
         WebElement element = null;
 
@@ -66,7 +72,7 @@ public class BasePage {
     }
 
     protected void waitToBePresentAndSendSubmit(By locator) {
-
+        logger.info("WAIT ELEMENT TO BE PRESENT AND SUBMIT: " + locator);
         WebElement element = null;
 
         try {
@@ -91,6 +97,7 @@ public class BasePage {
     }
 
     protected void scrollUpOn(int x) {
+        logger.info("SCROLL UP ON: " + x + " pixels");
         ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,-" + x + ")", "");
     }
 
@@ -106,7 +113,14 @@ public class BasePage {
     protected boolean isOnThePage(String expectedURL) {
 
         String currentURL = driver.getCurrentUrl();
-        return expectedURL.equals(currentURL);
+        boolean result = expectedURL.equals(currentURL);
+        if (result == true) {
+            logger.info("IS ON THE PAGE: " + expectedURL);
+        } else {
+            logger.info("YOU ARE NOT ON THE PAGE: " + expectedURL);
+            logger.info("YOU ARE ON THE PAGE: " + driver.getCurrentUrl());
+        }
+        return result;
 
     }
 

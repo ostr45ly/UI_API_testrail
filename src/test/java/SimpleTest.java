@@ -12,15 +12,12 @@ public class SimpleTest {
         // code that will be invoked when this test is instantiated
     }
 
-//    @Parameters({"myParam"})
-//    @Test(groups = {"functest"})
-//    public void testMethod1(String myParam) {
-//        // System.out.println("I got a parameter: " + myParam);
-//        Assert.assertTrue(false);
-//    }
 
     @Test(groups = {"functional"})
     public void subTaskCRUD() throws InterruptedException {
+
+        String parentIssue = "QAAUT-224";
+        String subTaskSummary = "Snizhanna test";
 
         //Login
 
@@ -34,13 +31,14 @@ public class SimpleTest {
         loginPage.enterUsername();
         loginPage.enterPassword();
         loginPage.clickLogin();
+
         dashBoardPage.isOnThePage();
 
         //Create new sub-task
 
-        headerPage.search("QAAUT-224");
+        headerPage.search(parentIssue);
         newIssuePage.openNewSubTask();
-        newIssuePage.fillSummary("Snizhanna test");
+        newIssuePage.fillSummary(subTaskSummary);
         newIssuePage.clickSubmitButton();
 
         //Delete new sub-task
