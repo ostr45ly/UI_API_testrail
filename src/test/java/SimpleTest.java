@@ -1,9 +1,8 @@
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pages.DashBoardPage;
-import pages.HeaderPage;
-import pages.LoginPage;
-import pages.NewIssuePage;
+import pages.*;
+
+import static org.testng.Assert.assertEquals;
 
 public class SimpleTest {
 
@@ -25,27 +24,45 @@ public class SimpleTest {
         NewIssuePage newIssuePage = new NewIssuePage();
         HeaderPage headerPage = new HeaderPage();
         DashBoardPage dashBoardPage = new DashBoardPage();
+        IssuePage issuePage = new IssuePage();
 
         loginPage.open();
-        loginPage.isOnThePage();
+        assertEquals(loginPage.isOnThePage(), true);
         loginPage.enterUsername();
         loginPage.enterPassword();
         loginPage.clickLogin();
 
-        dashBoardPage.isOnThePage();
+        assertEquals(dashBoardPage.isOnThePage(), true);
 
         //Create new sub-task
 
         headerPage.search(parentIssue);
-        newIssuePage.openNewSubTask();
+
+        issuePage.openNewSubTask();
         newIssuePage.fillSummary(subTaskSummary);
         newIssuePage.clickSubmitButton();
 
+        // TODO assert for sub-task title
+        issuePage.isSubTaskSummaryPresent(subTaskSummary);
+
+        // TODO assert for sub-task number
+        // TODO assert for sub-task assignee
+        // TODO assert for sub-task status
+
         //Delete new sub-task
-        newIssuePage.openSubtask();
-        newIssuePage.shouldSeeSuccessPopUp();
-        newIssuePage.clickMoreButton();
-        newIssuePage.clickDeleteListItem();
-        newIssuePage.deleteSubTask();
+        issuePage.openSubtask();
+        issuePage.shouldSeeSuccessPopUp();
+        issuePage.clickMoreButton();
+        issuePage.clickDeleteListItem();
+        issuePage.deleteSubTask();
+
+        // TODO assert that sub-task title doesn't exist
+
+    }
+
+    @Test(groups = {"functional"})
+    public void subTaskCommentCRUD() throws InterruptedException {
+
+
     }
 }

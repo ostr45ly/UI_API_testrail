@@ -87,6 +87,38 @@ public class BasePage {
 
     }
 
+    protected boolean waitToBePresentAndContainsText(By locator, String text) {
+        logger.info("WAIT ELEMENT TO BE PRESENT AND CONTAINS TEXT: " + locator);
+        WebElement element = null;
+
+        try {
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+
+            String result = element.getText();
+
+            if (text.equals(result)) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+
+        } catch (StaleElementReferenceException ignored) {
+            element = (new WebDriverWait(driver, timeOutInSeconds)).
+                    until(ExpectedConditions.presenceOfElementLocated(locator));
+            String result = element.getText();
+
+            if (text.equals(result)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    }
+
 
     protected void scrollDown() {
 

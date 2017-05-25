@@ -24,14 +24,6 @@ public class NewIssuePage extends BasePage {
 
     }
 
-    public NewIssuePage openNewSubTask() throws InterruptedException {
-
-        waitToBePresent(newSubtaskButtonLocator);
-        driver.findElement(newSubtaskButtonLocator).click();
-
-        return this;
-    }
-
     public NewIssuePage fillSummary(String summary) {
 
         waitToBePresent(summaryLocator);
@@ -43,42 +35,6 @@ public class NewIssuePage extends BasePage {
     public NewIssuePage clickSubmitButton() {
 
         driver.findElement(submitButtonLocator).click();
-
-        return this;
-    }
-
-    public NewIssuePage shouldSeeSuccessPopUp() {
-
-        waitToBePresent(successPopUp);
-
-        return this;
-    }
-
-    public NewIssuePage openSubtask() throws InterruptedException {
-
-        waitToBePresent(subtaskLocator);
-        waitToBePresentAndClick(subtaskLocator);
-
-        return this;
-    }
-
-    public NewIssuePage clickMoreButton() {
-
-        waitToBePresentAndClick(moreButtonLocator);
-
-        return this;
-    }
-
-    public NewIssuePage clickDeleteListItem() {
-
-        waitToBePresentAndClick(deleteListItemLocator);
-
-        return this;
-    }
-
-    public NewIssuePage deleteSubTask() {
-
-        waitToBePresentAndClick(deleteButtonLocator);
 
         return this;
     }

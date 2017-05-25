@@ -34,7 +34,6 @@ public class LoginPage extends BasePage {
 
     public LoginPage enterPassword() {
 
-        logger.info("FIND ELEMENT: " + passwordLocator);
         waitToBePresentAndSendKeys(passwordLocator, "11111111");
 
         return this;
@@ -42,7 +41,6 @@ public class LoginPage extends BasePage {
 
     public LoginPage clickLogin() {
 
-        logger.info("FIND ELEMENT: " + loginButtonLocator);
         waitToBePresentAndSendSubmit(loginButtonLocator);
 
         return this;
