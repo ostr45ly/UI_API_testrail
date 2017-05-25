@@ -43,7 +43,7 @@ public class SimpleTest {
         newIssuePage.clickSubmitButton();
 
         // TODO assert for sub-task title
-        issuePage.isSubTaskSummaryPresent(subTaskSummary);
+        assertEquals(issuePage.isSubTaskSummaryPresent(subTaskSummary), true);
 
         // TODO assert for sub-task number
         // TODO assert for sub-task assignee
