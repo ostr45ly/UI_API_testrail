@@ -5,6 +5,8 @@ import utils.RemoteDriverManager;
 
 public class IssuePage extends BasePage {
 
+    private String pageURL = baseURL + "/browse/%s";
+
     private HeaderPage headerPage;
 
     private By newSubtaskButtonLocator = By.id("stqc_show");
@@ -17,7 +19,9 @@ public class IssuePage extends BasePage {
     private By successPopUp = By.xpath("//*[contains(@class,'aui-message-success')]");
 
 
-    private String subTaskSummary = "//*[contains(text(),'%s')]";
+    private String subTaskSummary = "//*[@class='stsummary']//*[contains(text(),'%s')]";
+    private String subTaskNumber = "//*[@class='stsequence']//*[contains(text(),'%s')]";
+    private String subTaskAssignee = "//*[@class='assignee']//*[contains(text(),'%s')]";
 //    private By subTaskText = By.xpath("//*[contains(text(),'%s')]");
 
 
@@ -28,10 +32,16 @@ public class IssuePage extends BasePage {
 
     }
 
+    public void openExistingIssue(String issueId) {
+
+        String url = String.format(pageURL, issueId);
+        super.openExistingIssue(url);
+
+    }
+
     public IssuePage openNewSubTask() throws InterruptedException {
 
-        waitToBePresent(newSubtaskButtonLocator);
-        driver.findElement(newSubtaskButtonLocator).click();
+        waitToBePresentAndClick(newSubtaskButtonLocator);
 
         return this;
     }
@@ -71,10 +81,39 @@ public class IssuePage extends BasePage {
         return this;
     }
 
+    public boolean isOnThePage(String issueId) {
+
+        String url = String.format(pageURL, issueId);
+        return super.isOnThePage(url);
+
+    }
+
     public boolean isSubTaskSummaryPresent(String title) {
 
-        String subTaskSummaryXPath = String.format(subTaskSummary, title);
-        return waitToBePresentAndContainsText(By.xpath(subTaskSummaryXPath), title);
+        String selector = String.format(subTaskSummary, title);
+        return waitToBePresentAndContainsText(By.xpath(selector), title);
+
+    }
+
+    public boolean isSubTaskSummaryMissing(String title) {
+
+        String selector = String.format(subTaskSummary, title);
+        return waitToBeMissing(By.xpath(selector));
+
+    }
+
+
+    public boolean isSubTaskNumberPresent(String name) {
+
+        String selector = String.format(subTaskNumber, name);
+        return waitToBePresentAndContainsText(By.xpath(selector), name);
+
+    }
+
+    public boolean isSubTaskAssigneePresent(String name) {
+
+        String selector = String.format(subTaskAssignee, name);
+        return waitToBePresentAndContainsText(By.xpath(selector), name);
 
     }
 

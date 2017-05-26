@@ -24,6 +24,14 @@ public class BasePage {
                 .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
+    protected boolean waitToBeMissing(By locator) {
+        logger.info("WAIT ELEMENT TO BE MISSING: " + locator);
+        (new WebDriverWait(driver, timeOutInSeconds))
+                .until(ExpectedConditions.invisibilityOfElementLocated(locator));
+
+        return true;
+    }
+
     /**
      * @param locator
      * @param timeOutInSeconds
@@ -97,20 +105,18 @@ public class BasePage {
 
             String result = element.getText();
 
-            if (text.equals(result)) {
+            if (result.contains(text)) {
                 return true;
             } else {
                 return false;
             }
-
-
 
         } catch (StaleElementReferenceException ignored) {
             element = (new WebDriverWait(driver, timeOutInSeconds)).
                     until(ExpectedConditions.presenceOfElementLocated(locator));
             String result = element.getText();
 
-            if (text.equals(result)) {
+            if (result.contains(text)) {
                 return true;
             } else {
                 return false;
@@ -154,6 +160,10 @@ public class BasePage {
         }
         return result;
 
+    }
+
+    protected void openExistingIssue(String url){
+        driver.get(url);
     }
 
 }

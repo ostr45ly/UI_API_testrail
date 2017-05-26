@@ -15,8 +15,10 @@ public class SimpleTest {
     @Test(groups = {"functional"})
     public void subTaskCRUD() throws InterruptedException {
 
-        String parentIssue = "QAAUT-224";
+        String parentIssueId = "QAAUT-224";
         String subTaskSummary = "Snizhanna test";
+        String subTaskNumber = "1";
+        String subTaskAssignee = "Unassigned";
 
         //Login
 
@@ -28,6 +30,7 @@ public class SimpleTest {
 
         loginPage.open();
         assertEquals(loginPage.isOnThePage(), true);
+
         loginPage.enterUsername();
         loginPage.enterPassword();
         loginPage.clickLogin();
@@ -36,17 +39,17 @@ public class SimpleTest {
 
         //Create new sub-task
 
-        headerPage.search(parentIssue);
+        headerPage.search(parentIssueId);
 
+        assertEquals(issuePage.isOnThePage(parentIssueId), true);
         issuePage.openNewSubTask();
         newIssuePage.fillSummary(subTaskSummary);
         newIssuePage.clickSubmitButton();
 
-        // TODO assert for sub-task title
         assertEquals(issuePage.isSubTaskSummaryPresent(subTaskSummary), true);
+        assertEquals(issuePage.isSubTaskNumberPresent(subTaskNumber), true);
+        assertEquals(issuePage.isSubTaskAssigneePresent(subTaskAssignee), true);
 
-        // TODO assert for sub-task number
-        // TODO assert for sub-task assignee
         // TODO assert for sub-task status
 
         //Delete new sub-task
@@ -56,7 +59,11 @@ public class SimpleTest {
         issuePage.clickDeleteListItem();
         issuePage.deleteSubTask();
 
-        // TODO assert that sub-task title doesn't exist
+        // TODO check success popup
+
+        issuePage.openExistingIssue(parentIssueId);
+
+        assertEquals(issuePage.isSubTaskSummaryMissing(subTaskSummary), true);
 
     }
 
