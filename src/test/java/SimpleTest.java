@@ -49,8 +49,8 @@ public class SimpleTest {
         assertEquals(issuePage.isSubTaskSummaryPresent(subTaskSummary), true);
         assertEquals(issuePage.isSubTaskNumberPresent(subTaskNumber), true);
         assertEquals(issuePage.isSubTaskAssigneePresent(subTaskAssignee), true);
-
         // TODO assert for sub-task status
+
 
         //Delete new sub-task
         issuePage.openSubtask();
@@ -58,11 +58,9 @@ public class SimpleTest {
         issuePage.clickMoreButton();
         issuePage.clickDeleteListItem();
         issuePage.deleteSubTask();
-
-        // TODO check success popup
+        // TODO check success popup appeared
 
         issuePage.openExistingIssue(parentIssueId);
-
         assertEquals(issuePage.isSubTaskSummaryMissing(subTaskSummary), true);
 
     }

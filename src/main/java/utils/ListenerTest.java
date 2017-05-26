@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import pages.BasePage;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,30 +15,29 @@ public class ListenerTest implements ITestListener {
 
     public void onTestStart(ITestResult iTestResult) {
         String testCaseName = iTestResult.getName();
-        logger.info("TEST: " + testCaseName + " STARTED");
-
         String browserName = iTestResult.getTestContext().getCurrentXmlTest().getParameter("browserName");
         String implicitWaitInSeconds = iTestResult.getTestContext().getCurrentXmlTest().getParameter("implicitWaitInSeconds");
-
         WebDriver driver = RemoteWebDriverFactory.createInstance(browserName);
+
         RemoteDriverManager.setWebDriver(driver);
-        RemoteDriverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(implicitWaitInSeconds), TimeUnit.SECONDS);
+        logger.info("TEST: " + testCaseName + " STARTED on browserName=" + browserName);
+
+        changeImplicitWaitValue(driver, Integer.parseInt(implicitWaitInSeconds));
 
         // For slow internet and slow test suite, slower than rest of the tests
         String[] groups = iTestResult.getMethod().getGroups();
         for (String group : groups) {
             if (group.contains("slow")) {
-                RemoteDriverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(implicitWaitInSeconds) + 50, TimeUnit.SECONDS);
+                changeImplicitWaitValue(driver, Integer.parseInt(implicitWaitInSeconds) + 50);
             }
         }
     }
 
     public void onTestSuccess(ITestResult iTestResult) {
 
-        String testNGUsersParameter = iTestResult.getTestContext().getCurrentXmlTest().getParameter("myParam");
         String testCaseName = iTestResult.getName();
-
         logger.info("TEST: " + testCaseName + " PASSED");
+
     }
 
     public void onTestFailure(ITestResult iTestResult) {
@@ -62,10 +62,14 @@ public class ListenerTest implements ITestListener {
         WebDriver driver = RemoteDriverManager.getDriver();
 
         if (driver != null) {
-            logger.info("Restoring implicit wait to default value");
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            changeImplicitWaitValue(driver, Integer.parseInt(BasePage.defaultImplicitWaitInSeconds));
             logger.info("Closing browser window");
             RemoteDriverManager.closeDriver();
         }
+    }
+
+    private void changeImplicitWaitValue(WebDriver driver, int implicitWaitValueInSeconds) {
+        driver.manage().timeouts().implicitlyWait(implicitWaitValueInSeconds, TimeUnit.SECONDS);
+        logger.info("IMPLICIT WAIT WAS CHANGED TO: " + implicitWaitValueInSeconds);
     }
 }
