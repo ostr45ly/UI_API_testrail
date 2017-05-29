@@ -17,11 +17,21 @@ public class IssuePage extends BasePage {
     private By deleteListItemLocator = By.id("delete-issue");
     private By deleteButtonLocator = By.id("delete-issue-submit");
     private By successPopUp = By.xpath("//*[contains(@class,'aui-message-success')]");
+    private By commentBtnLocator = By.id("footer-comment-button");
+    private By commentAreaLocator = By.id("comment");
+    private By commentAddBtnLocator = By.id("issue-comment-add-submit");
+    private By commentDeleteBtnLocator = By.xpath("//*[contains(@id,'delete_comment')]");
+    private By commentDeletePopUpBtnLocator = By.id("comment-delete-submit");
 
 
     private String subTaskSummary = "//*[@class='stsummary']//*[contains(text(),'%s')]";
     private String subTaskNumber = "//*[@class='stsequence']//*[contains(text(),'%s')]";
     private String subTaskAssignee = "//*[@class='assignee']//*[contains(text(),'%s')]";
+    private String commentText = "//*[@id='issue_actions_container']//child::*[contains(text(),'%s')]";
+
+    // Comments sections
+
+    private By commentTextType = By.id("aui-uid-2");
 //    private By subTaskText = By.xpath("//*[contains(text(),'%s')]");
 
 
@@ -81,6 +91,44 @@ public class IssuePage extends BasePage {
         return this;
     }
 
+    public IssuePage clickOnCommentBtn() {
+
+        waitToBePresentAndClick(commentBtnLocator);
+
+        return this;
+    }
+
+    public IssuePage enterComment(String comment) {
+
+        waitToBePresentAndClick(commentTextType);
+        waitToBePresentAndSendKeys(commentAreaLocator, comment);
+
+        return this;
+    }
+
+    public IssuePage clickOnAddComment() {
+
+        waitToBePresentAndClick(commentAddBtnLocator);
+
+        return this;
+    }
+
+    public IssuePage clickOnDeleteComment() {
+
+        waitToBePresentAndClick(commentDeleteBtnLocator);
+
+        return this;
+    }
+
+    public IssuePage confirmDeletionOfComment() {
+
+        waitToBePresentAndClick(commentDeletePopUpBtnLocator);
+
+        return this;
+    }
+
+    // Checks
+
     public boolean isOnThePage(String issueId) {
 
         String url = String.format(pageURL, issueId);
@@ -102,7 +150,6 @@ public class IssuePage extends BasePage {
 
     }
 
-
     public boolean isSubTaskNumberPresent(String name) {
 
         String selector = String.format(subTaskNumber, name);
@@ -114,6 +161,20 @@ public class IssuePage extends BasePage {
 
         String selector = String.format(subTaskAssignee, name);
         return waitToBePresentAndContainsText(By.xpath(selector), name);
+
+    }
+
+    public boolean isCommentTextPresent(String text) {
+
+        String selector = String.format(commentText, text);
+        return waitToBePresentAndContainsText(By.xpath(selector), text);
+
+    }
+
+    public boolean isCommentTextMissing(String text) {
+
+        String selector = String.format(commentText, text);
+        return waitToBeMissing(By.xpath(selector));
 
     }
 

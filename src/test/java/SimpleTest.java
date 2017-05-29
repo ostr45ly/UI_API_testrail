@@ -1,4 +1,4 @@
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 import pages.*;
 
@@ -6,13 +6,13 @@ import static org.testng.Assert.assertEquals;
 
 public class SimpleTest {
 
-    @BeforeClass
+    @BeforeGroups // (groups = {"functional"})
     public void setUp() {
         // code that will be invoked when this test is instantiated
     }
 
 
-    @Test(groups = {"functional"})
+    @Test // (groups = {"functional"})
     public void subTaskCRUD() throws InterruptedException {
 
         String parentIssueId = "QAAUT-224";
@@ -68,6 +68,42 @@ public class SimpleTest {
     @Test(groups = {"functional"})
     public void subTaskCommentCRUD() throws InterruptedException {
 
+
+        String subTaskId = "QAAUT-465";
+        // String subtaskIssueId = "QAAUT-224";
+        String commentText = "Test Comment";
+
+        //Login
+
+        LoginPage loginPage = new LoginPage();
+        NewIssuePage newIssuePage = new NewIssuePage();
+        HeaderPage headerPage = new HeaderPage();
+        DashBoardPage dashBoardPage = new DashBoardPage();
+        IssuePage issuePage = new IssuePage();
+
+        loginPage.open();
+        assertEquals(loginPage.isOnThePage(), true);
+
+        loginPage.enterUsername();
+        loginPage.enterPassword();
+        loginPage.clickLogin();
+
+        assertEquals(dashBoardPage.isOnThePage(), true);
+        issuePage.openExistingIssue(subTaskId);
+        assertEquals(issuePage.isOnThePage(subTaskId), true);
+
+
+        issuePage.clickOnCommentBtn();
+        issuePage.enterComment(commentText);
+        issuePage.clickOnAddComment();
+
+        // TODO assert that comment is present
+        assertEquals(issuePage.isCommentTextPresent(commentText), true);
+
+        issuePage.clickOnDeleteComment();
+        issuePage.confirmDeletionOfComment();
+
+        assertEquals(issuePage.isCommentTextMissing(commentText), true);
 
     }
 }

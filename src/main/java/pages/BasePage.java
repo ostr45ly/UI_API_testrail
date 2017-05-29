@@ -106,6 +106,8 @@ public class BasePage {
 
             String result = element.getText();
 
+            // TODO doe we really need to check text if we alredy found element using xpath and contains?
+
             if (result.contains(text)) {
                 return true;
             } else {
