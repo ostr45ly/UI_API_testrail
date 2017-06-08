@@ -1,8 +1,8 @@
-package pages;
+package ui.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import utils.RemoteDriverManager;
+import ui.utils.RemoteDriverManager;
 
 public class HeaderPage extends BasePage {
 

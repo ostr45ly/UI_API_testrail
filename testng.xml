@@ -2,7 +2,7 @@
 <suite name="Parallel test suite" parallel="tests" thread-count="3">
 
     <listeners>
-        <listener class-name="utils.ListenerTest"/>
+        <listener class-name="ui.utils.ListenerTest"/>
     </listeners>
 
     <parameter name="myParam" value="This is the value for a parameter"/>

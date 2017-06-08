@@ -1,7 +1,7 @@
-package pages;
+package ui.pages;
 
 import org.openqa.selenium.By;
-import utils.RemoteDriverManager;
+import ui.utils.RemoteDriverManager;
 
 public class NewIssuePage extends BasePage {
 

@@ -1,6 +1,8 @@
+package ui;
+
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
-import pages.*;
+import ui.pages.*;
 
 import static org.testng.Assert.assertEquals;
 
@@ -9,6 +11,9 @@ public class SimpleTest {
     @BeforeGroups // (groups = {"functional"})
     public void setUp() {
         // code that will be invoked when this test is instantiated
+
+        // TODO put login logic here
+
     }
 
 

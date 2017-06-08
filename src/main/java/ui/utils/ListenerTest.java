@@ -1,11 +1,11 @@
-package utils;
+package ui.utils;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import pages.BasePage;
+import ui.pages.BasePage;
 
 import java.util.concurrent.TimeUnit;
 
