@@ -14,21 +14,25 @@ public class ListenerTest implements ITestListener {
     final static Logger logger = Logger.getLogger(ListenerTest.class);
 
     public void onTestStart(ITestResult iTestResult) {
-        String testCaseName = iTestResult.getName();
-        String browserName = iTestResult.getTestContext().getCurrentXmlTest().getParameter("browserName");
-        String implicitWaitInSeconds = iTestResult.getTestContext().getCurrentXmlTest().getParameter("implicitWaitInSeconds");
-        WebDriver driver = RemoteWebDriverFactory.createInstance(browserName);
-
-        RemoteDriverManager.setWebDriver(driver);
-        logger.info("TEST: " + testCaseName + " STARTED on browserName=" + browserName);
-
-        changeImplicitWaitValue(driver, Integer.parseInt(implicitWaitInSeconds));
-
-        // For slow internet and slow test suite, slower than rest of the tests
         String[] groups = iTestResult.getMethod().getGroups();
+
         for (String group : groups) {
-            if (group.contains("slow")) {
-                changeImplicitWaitValue(driver, Integer.parseInt(implicitWaitInSeconds) + 50);
+            if (group.contains("ui")) {
+                String testCaseName = iTestResult.getName();
+                String browserName = iTestResult.getTestContext().getCurrentXmlTest().getParameter("browserName");
+                String implicitWaitInSeconds = iTestResult.getTestContext().getCurrentXmlTest().getParameter("implicitWaitInSeconds");
+                WebDriver driver = RemoteWebDriverFactory.createInstance(browserName);
+
+                RemoteDriverManager.setWebDriver(driver);
+                logger.info("TEST: " + testCaseName + " STARTED on browserName=" + browserName);
+
+                changeImplicitWaitValue(driver, Integer.parseInt(implicitWaitInSeconds));
+
+                // For slow internet and slow test suite, slower than rest of the tests
+
+                if (group.contains("slow")) {
+                    changeImplicitWaitValue(driver, Integer.parseInt(implicitWaitInSeconds) + 50);
+                }
             }
         }
     }
