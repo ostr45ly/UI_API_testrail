@@ -1,12 +1,20 @@
 package ui.utils;
 
+import backend.APIClient;
+import backend.APIException;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
+import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import ui.pages.BasePage;
+import utils.TestCase;
 
+import java.io.*;
+import java.lang.annotation.Annotation;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class ListenerTest implements ITestListener {
@@ -42,6 +50,71 @@ public class ListenerTest implements ITestListener {
         String testCaseName = iTestResult.getName();
         logger.info("TEST: " + testCaseName + " PASSED");
 
+        ITestNGMethod method = iTestResult.getMethod();
+
+        Class obj = method.getRealClass();
+        Annotation annotation = null;
+
+        try {
+            annotation = obj.getDeclaredMethod(method.getMethodName()).getAnnotation(TestCase.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        TestCase testerInfo = (TestCase) annotation;
+        String testCaseId = testerInfo.id();
+        // System.out.printf("ANNOTATION: " + testerInfo.id();
+
+        // TODO add code that retrieves ID of test run from properties
+
+        Properties prop = new Properties();
+        FileInputStream input = null;
+        String testRunId = "";
+
+        try {
+
+            try {
+                input = new FileInputStream("testrun.properties");
+                try {
+                    prop.load(input);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            testRunId = prop.getProperty("test_run_id");
+
+            // TODO get configuration name if not empty
+
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        APIClient client = new APIClient("https://hilleltest3.testrail.net");
+        client.setUser("a.a.piluck@gmail.com");
+        client.setPassword("dr8wJd15aqcI2FOFjpj6");
+        JSONObject response = null;
+
+        JSONObject body = new JSONObject();
+        body.put("status_id", "1");
+
+
+        try {
+            response = (JSONObject) client.sendPost("add_result_for_case/" + testRunId + "/" + testCaseId, body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (APIException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onTestFailure(ITestResult iTestResult) {
@@ -76,4 +149,6 @@ public class ListenerTest implements ITestListener {
         driver.manage().timeouts().implicitlyWait(implicitWaitValueInSeconds, TimeUnit.SECONDS);
         logger.info("IMPLICIT WAIT WAS CHANGED TO: " + implicitWaitValueInSeconds);
     }
+
+
 }
