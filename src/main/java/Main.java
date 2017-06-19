@@ -27,15 +27,24 @@ public class Main {
         APIClient client = new APIClient("https://hilleltest3.testrail.net");
         client.setUser("a.a.piluck@gmail.com");
         client.setPassword("dr8wJd15aqcI2FOFjpj6");
-        JSONObject c = null;
+        JSONObject response = null;
+
+        JSONObject body = new JSONObject();
+        body.put("status_id", "4");
+
+
         try {
-            c = (JSONObject) client.sendGet("get_case/1");
+            response = (JSONObject) client.sendGet("get_case/1");
+            response = (JSONObject) client.sendPost("add_result_for_case/3/1", body);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (APIException e) {
             e.printStackTrace();
         }
-        System.out.println(c.get("title"));
+        System.out.println(response.get("title"));
+
+
+
     }
 
 }
