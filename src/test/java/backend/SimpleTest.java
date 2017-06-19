@@ -60,7 +60,7 @@ public class SimpleTest {
                 when().
                 get("/rest/api/2/issue/" + issueKey).
                 then().
-                statusCode(201).
+                statusCode(200).
                 extract().asString();
 
         //                    assertThat().

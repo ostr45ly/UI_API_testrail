@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 
 public class JiraJsonFixture {
 
+
     public String generateJSONForLogin() {
         JSONObject credentials = new JSONObject();
         credentials.put("username", "gubernatorova.sn");
