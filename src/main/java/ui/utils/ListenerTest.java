@@ -2,6 +2,8 @@ package ui.utils;
 
 import backend.APIClient;
 import backend.APIException;
+import backend.AnnotationTest;
+import backend.PropertyReader;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
@@ -48,78 +50,26 @@ public class ListenerTest implements ITestListener {
     public void onTestSuccess(ITestResult iTestResult) {
 
         String testCaseName = iTestResult.getName();
+        String annotactestCaseId = "";
         logger.info("TEST: " + testCaseName + " PASSED");
 
-        ITestNGMethod method = iTestResult.getMethod();
-
-        Class obj = method.getRealClass();
-        Annotation annotation = null;
-
-        try {
-            annotation = obj.getDeclaredMethod(method.getMethodName()).getAnnotation(TestCase.class);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        TestCase testerInfo = (TestCase) annotation;
-        String testCaseId = testerInfo.id();
-        // System.out.printf("ANNOTATION: " + testerInfo.id();
-
-        // TODO add code that retrieves ID of test run from properties
-
-        Properties prop = new Properties();
-        FileInputStream input = null;
-        String testRunId = "";
-
-        try {
-
-            try {
-                input = new FileInputStream("testrun.properties");
-                try {
-                    prop.load(input);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            testRunId = prop.getProperty("test_run_id");
-
-            // TODO get configuration name if not empty
-
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
-        APIClient client = new APIClient("https://hilleltest3.testrail.net");
-        client.setUser("a.a.piluck@gmail.com");
-        client.setPassword("dr8wJd15aqcI2FOFjpj6");
-        JSONObject response = null;
-
-        JSONObject body = new JSONObject();
-        body.put("status_id", "1");
-
-
-        try {
-            response = (JSONObject) client.sendPost("add_result_for_case/" + testRunId + "/" + testCaseId, body);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (APIException e) {
-            e.printStackTrace();
-        }
+        AnnotationTest aAnnotationTest=new AnnotationTest();
+        annotactestCaseId =aAnnotationTest.retrievesId(iTestResult);
+        PropertyReader propertyReader = new PropertyReader();
+        propertyReader.test(annotactestCaseId ,"1");
 
     }
 
     public void onTestFailure(ITestResult iTestResult) {
+
+        String annotactestCaseId = "";
         logger.error("TEST: " + iTestResult.getName() + " FAILED");
         logger.error(iTestResult.getThrowable().fillInStackTrace());
+
+        AnnotationTest aAnnotationTest=new AnnotationTest();
+        annotactestCaseId =aAnnotationTest.retrievesId(iTestResult);
+        PropertyReader propertyReader = new PropertyReader();
+        propertyReader.test(annotactestCaseId ,"5");
     }
 
     public void onTestSkipped(ITestResult iTestResult) {

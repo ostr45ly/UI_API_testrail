@@ -35,7 +35,7 @@ public class Main {
 
         try {
             response = (JSONObject) client.sendGet("get_case/1");
-            response = (JSONObject) client.sendPost("add_result_for_case/3/1", body);
+            response = (JSONObject) client.sendPost("add_result_for_case/2/1", body);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (APIException e) {
