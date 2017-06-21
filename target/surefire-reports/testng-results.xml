@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Parallel test suite" duration-ms="3932" started-at="2017-06-21T19:32:02Z" finished-at="2017-06-21T19:32:06Z">
+    <groups>
+      <group name="functional">
+        <method signature="SimpleTest.subTaskCRUD()[pri:0, instance:backend.SimpleTest@42d80b78]" name="subTaskCRUD" class="backend.SimpleTest"/>
+      </group> <!-- functional -->
+      <group name="backend">
+        <method signature="SimpleTest.subTaskCRUD()[pri:0, instance:backend.SimpleTest@42d80b78]" name="subTaskCRUD" class="backend.SimpleTest"/>
+      </group> <!-- backend -->
+    </groups>
+    <test name="Test1" duration-ms="3932" started-at="2017-06-21T19:32:02Z" finished-at="2017-06-21T19:32:06Z">
+      <class name="backend.SimpleTest">
+        <test-method status="PASS" signature="login()[pri:0, instance:backend.SimpleTest@42d80b78]" name="login" is-config="true" duration-ms="1983" started-at="2017-06-21T22:32:02Z" finished-at="2017-06-21T22:32:04Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- login -->
+        <test-method status="PASS" signature="subTaskCRUD()[pri:0, instance:backend.SimpleTest@42d80b78]" name="subTaskCRUD" duration-ms="727" started-at="2017-06-21T22:32:04Z" finished-at="2017-06-21T22:32:05Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- subTaskCRUD -->
+      </class> <!-- backend.SimpleTest -->
+    </test> <!-- Test1 -->
+  </suite> <!-- Parallel test suite -->
+</testng-results>

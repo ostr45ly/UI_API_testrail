@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class PropertyReader {
 
-    // TODO method which reads all properties from specified file
+    // TODO method which reads  all  properties  from  specified  file
 
     public void test(String testId,String statusId) {
 
